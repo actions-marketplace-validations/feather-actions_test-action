@@ -2,8 +2,6 @@
 set -euo pipefail
 
 log() { printf -- "** %s\n" "$*" >&2; }
-error() { printf -- "** ERROR: %s\n" "$*" >&2; }
-fatal() { error "$@"; exit 1; }
 
 REPO_ROOT="$(git -C "$PWD" rev-parse --show-toplevel)"
 UNACCEPTABLE_LANGUAGE_PATTERNS_PATH="${REPO_ROOT}/unacceptable-language.txt"
@@ -31,7 +29,8 @@ fi
 
 if [ -n "${PATHS_WITH_UNACCEPTABLE_LANGUAGE}" ]; then
   log "❌ Found unacceptable language in files:"
-  fatal "${PATHS_WITH_UNACCEPTABLE_LANGUAGE}"
+  log "${PATHS_WITH_UNACCEPTABLE_LANGUAGE}"
+  exit 1;
 fi
 
 log "✅ Found no unacceptable language."
