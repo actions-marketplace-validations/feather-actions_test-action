@@ -7,11 +7,16 @@ fatal() { error "$@"; exit 1; }
 
 REPO_ROOT="$(git -C "$PWD" rev-parse --show-toplevel)"
 CURRENT_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-UNACCEPTABLE_LANGUAGE_PATTERNS_PATH="${{github.action_path}}/unacceptable-language.txt"
+UNACCEPTABLE_LANGUAGE_PATTERNS_PATH="${CURRENT_SCRIPT_DIR}/unacceptable-language.txt"
 
 log "..................................."
 log ${REPO_ROOT}
+log ${CURRENT_SCRIPT_DIR}
 log ${UNACCEPTABLE_LANGUAGE_PATTERNS_PATH}
+
+if test -f ${UNACCEPTABLE_LANGUAGE_PATTERNS_PATH}; then
+  echo "File exists."
+fi
 
 log "Checking for unacceptable language..."
 PATHS_WITH_UNACCEPTABLE_LANGUAGE=$(git -C "${REPO_ROOT}" grep \
@@ -22,9 +27,8 @@ PATHS_WITH_UNACCEPTABLE_LANGUAGE=$(git -C "${REPO_ROOT}" grep \
 ) || true | /usr/bin/paste -s -d " " -
 
 log "..................................."
-log ${PATHS_WITH_UNACCEPTABLE_LANGUAGE}
+log ${UNACCEPTABLE_LANGUAGE_PATTERNS_PATH}
 
-log "..................................."
 
 if [ -n "${PATHS_WITH_UNACCEPTABLE_LANGUAGE}" ]; then
   fatal "❌ Found unacceptable language in files:"
