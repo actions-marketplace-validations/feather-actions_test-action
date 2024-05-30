@@ -1,4 +1,4 @@
-name: 'Test Action'
+name: 'BB Test Action'
 description: 'This Bash script checks if any Package.swift files in a Git repository contain local Swift package references'
 
 runs:
