@@ -18,8 +18,6 @@ log "Checking for unacceptable language..."
 PATHS_WITH_UNACCEPTABLE_LANGUAGE=$(git -C "${REPO_ROOT}" grep \
   -l -F -w \
   -f "${UNACCEPTABLE_LANGUAGE_PATTERNS_PATH}" \
-  #-- \
-  #":(exclude)${UNACCEPTABLE_LANGUAGE_PATTERNS_PATH}" \
 ) || true | /usr/bin/paste -s -d " " -
 
 log "..................................."
