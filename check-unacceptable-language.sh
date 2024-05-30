@@ -14,16 +14,12 @@ log ${REPO_ROOT}
 log ${CURRENT_SCRIPT_DIR}
 log ${UNACCEPTABLE_LANGUAGE_PATTERNS_PATH}
 
-if test -f ${UNACCEPTABLE_LANGUAGE_PATTERNS_PATH}; then
-  echo "File exists."
-fi
-
 log "Checking for unacceptable language..."
 PATHS_WITH_UNACCEPTABLE_LANGUAGE=$(git -C "${REPO_ROOT}" grep \
   -l -F -w \
   -f "${UNACCEPTABLE_LANGUAGE_PATTERNS_PATH}" \
-  -- \
-  ":(exclude)${UNACCEPTABLE_LANGUAGE_PATTERNS_PATH}" \
+  #-- \
+  #":(exclude)${UNACCEPTABLE_LANGUAGE_PATTERNS_PATH}" \
 ) || true | /usr/bin/paste -s -d " " -
 
 log "..................................."
