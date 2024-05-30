@@ -7,11 +7,10 @@ fatal() { error "$@"; exit 1; }
 
 REPO_ROOT="$(git -C "$PWD" rev-parse --show-toplevel)"
 CURRENT_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-UNACCEPTABLE_LANGUAGE_PATTERNS_PATH="${CURRENT_SCRIPT_DIR}/unacceptable-language.txt"
+UNACCEPTABLE_LANGUAGE_PATTERNS_PATH="${{github.action_path}}/unacceptable-language.txt"
 
 log "..................................."
 log ${REPO_ROOT}
-log ${CURRENT_SCRIPT_DIR}
 log ${UNACCEPTABLE_LANGUAGE_PATTERNS_PATH}
 
 log "Checking for unacceptable language..."
