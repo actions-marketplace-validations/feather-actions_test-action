@@ -1,0 +1,15 @@
+name: 'Check Local Swift Dependencies'
+description: 'This Bash script checks if any Package.swift files in a Git repository contain local Swift package references'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: run script
+      shell: bash
+      run: |
+        chmod -R oug+x ${{github.action_path}}/check-local-swift-dependencies.sh
+        ${{github.action_path}}/check-local-swift-dependencies.sh
+
+branding:
+  icon: 'server'
+  color: 'green'
