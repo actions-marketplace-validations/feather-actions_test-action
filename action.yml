@@ -1,14 +1,31 @@
 name: 'BB Test Action'
 description: 'Playground for actions'
 
+inputs:
+  enable-code-coverage:
+    description: 'Boolean input to enable code coverage'
+    required: false
+    default: true
+
 runs:
   using: 'composite'
-  steps:
-    - name: run script
+  run-tests:
+    #strategy:
+    #  matrix:
+    #    image:
+    #      - 'swift:5.9'
+    #      - 'swift:5.10'
+    #container:
+    #  image: ${{ matrix.image }}
+    steps:  
+    - name: Run tests
       shell: bash
       run: |
-        chmod -R oug+x ${{github.action_path}}/check-broken-symlinks.sh
-        ${{github.action_path}}/check-broken-symlinks.sh
+        if [ "${{ inputs.enable-code-coverage }}" = "true" ]; then
+          swift test --parallel --enable-code-coverage
+        else
+          swift test --parallel
+        fi
 
 branding:
   icon: 'server'
