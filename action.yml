@@ -14,8 +14,10 @@ runs:
     shell: bash
     run: |
       if [ "${{ inputs.enable-code-coverage }}" = "true" ]; then
+        echo "1 "
         swift test --parallel --enable-code-coverage
       else
+        echo "2 "
         swift test --parallel
       fi
 
