@@ -24,7 +24,6 @@ runs:
         cd Testify
         make install
         cd ..
-        swift build
       fi
 
       if [ "${{ inputs.enable-code-coverage }}" = "true" ]; then
