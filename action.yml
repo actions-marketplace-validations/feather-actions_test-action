@@ -2,10 +2,16 @@ name: 'BB Test Action'
 description: 'Playground for actions'
 
 inputs:
+
   enable-code-coverage:
     description: 'Boolean input to enable code coverage'
     required: false
     default: true
+
+  use-testify:
+    description: 'Generates an MD file from Swift XCTests and show it in the workflow summary'
+    required: false
+    default: false
 
 runs:
   using: 'composite'
@@ -13,11 +19,17 @@ runs:
   - name: Run tests
     shell: bash
     run: |
+      if [ "${{ use-testify }}" = "true" ]; then
+        git clone https://github.com/BinaryBirds/Testify.git
+        cd Testify
+        make install
+        cd ..
+        swift build
+      fi
+
       if [ "${{ inputs.enable-code-coverage }}" = "true" ]; then
-        echo "1 "
         swift test --parallel --enable-code-coverage
       else
-        echo "2 "
         swift test --parallel
       fi
 
