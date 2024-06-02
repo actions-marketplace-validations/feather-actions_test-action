@@ -2,7 +2,7 @@ name: 'BB Test Action'
 description: 'Playground for actions'
 
 inputs:
-  enable-code-coverage:
+  code-coverage:
     description: 'Boolean input to enable code coverage'
     required: false
     default: false
@@ -24,14 +24,17 @@ runs:
         make install
         cd ..
       fi
-      if [ "${{inputs.enable-code-coverage}}" == "true" ] && [ "${{inputs.use-testify}}" == "true" ]; then
-        echo "1"
+      
+      if [ "${{inputs.code-coverage}}" == "true" ] && [ "${{inputs.use-testify}}" == "true" ]; then
         swift test --enable-code-coverage | testify md >> $GITHUB_STEP_SUMMARY
+
       elif [ "${{inputs.use-testify}}" == "true" ]; then
-        echo "2"
         swift test | testify md >> $GITHUB_STEP_SUMMARY
+
+      elif [ "${{inputs.code-coverage}}" == "true" ]; then
+        swift test --parallel --enable-code-coverage
+
       else
-        echo "3"
         swift test --parallel
       fi
 
