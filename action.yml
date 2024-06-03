@@ -2,41 +2,28 @@ name: 'BB Test Action'
 description: 'Playground for actions'
 
 inputs:
-  code-coverage:
-    description: 'Boolean input to enable code coverage'
+  swift-format-version:
+    description: 'Swift Format tag version number'
     required: false
-    default: false
-  use-testify:
-    description: 'Generates an MD file from Swift XCTests and show it in the workflow summary'
-    required: false
-    default: false
+    default: "510.1.0"
 
 runs:
   using: 'composite'
   steps:
-  - name: Run tests
-    shell: bash
-    run: |
-      if [ "${{inputs.use-testify}}" == "true" ]; then
-        echo "testify"
-        git clone https://github.com/BinaryBirds/Testify.git
-        cd Testify
-        make install
-        cd ..
-      fi
-      
-      if [ "${{inputs.code-coverage}}" == "true" ] && [ "${{inputs.use-testify}}" == "true" ]; then
-        swift test --enable-code-coverage | testify md >> $GITHUB_STEP_SUMMARY
+    - name: build swift-format
+      shell: bash
+      run: |
+        git clone https://github.com/apple/swift-format.git
+        cd swift-format
+        git checkout "tags/${{inputs.swift-format-version}}"
+        swift build -c release
+        install .build/release/swift-format /usr/local/bin/swift-format
 
-      elif [ "${{inputs.use-testify}}" == "true" ]; then
-        swift test | testify md >> $GITHUB_STEP_SUMMARY
-
-      elif [ "${{inputs.code-coverage}}" == "true" ]; then
-        swift test --parallel --enable-code-coverage
-
-      else
-        swift test --parallel
-      fi
+    - name: run script
+      shell: bash
+      run: |
+        chmod -R oug+x ${{github.action_path}}/run-swift-format.sh
+        ${{github.action_path}}/run-swift-format.sh
 
 branding:
   icon: 'server'
