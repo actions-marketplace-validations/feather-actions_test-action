@@ -19,13 +19,12 @@ fi
 git -C "${REPO_ROOT}" ls-files -z '*.swift' \
   | grep -z -v \
   -e 'Package.swift' \
-  | xargs -0 "${SWIFTFORMAT_BIN}" "lint --strict" --parallel \
-  --configuration "${SWIFT_FORMAT_JSON_PATH}" \
+  | xargs -0 "${SWIFTFORMAT_BIN}" "lint" --strict --configuration "${SWIFT_FORMAT_JSON_PATH}" --parallel \
   && SWIFT_FORMAT_RC=$? || SWIFT_FORMAT_RC=$?
   
 if [ "${SWIFT_FORMAT_RC}" -ne 0 ]; then
-  log "❌ Running swift-format produced errors."; exit 1;
-  exit "${SWIFT_FORMAT_RC}"
+  log "❌ Running swift-format lint produced errors."
+  exit 1
 fi
 
-log "✅ Ran swift-format with no errors."
+log "✅ Ran swift-format lint with no errors."
