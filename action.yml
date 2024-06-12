@@ -14,8 +14,7 @@ runs:
       shell: bash
       run: |
 
-        echo "${{github.action_path}}"
-        echo "${GITHUB_ACTION_PATH}"
+        echo "$OSTYPE"
 
         # needed for ubuntu
         git config --global --add safe.directory $PWD
