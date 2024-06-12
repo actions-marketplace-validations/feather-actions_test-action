@@ -17,10 +17,8 @@ runs:
         echo "${{github.action_path}}"
         echo "${GITHUB_ACTION_PATH}"
 
-        # /home/runner/work/_actions/feather-actions/test-action/0.0.27/
-
-        chmod -R oug+x ${{github.action_path}}/check-local-swift-dependencies.sh
-        ${{github.action_path}}/check-local-swift-dependencies.sh
+        chmod -R oug+x ${GITHUB_ACTION_PATH}/check-local-swift-dependencies.sh
+        ${GITHUB_ACTION_PATH}/check-local-swift-dependencies.sh
 
 branding:
   icon: 'server'
