@@ -10,20 +10,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: build swift-format
-      shell: bash
-      run: |
-        git clone https://github.com/apple/swift-format.git
-        cd swift-format
-        git checkout "tags/${{inputs.swift-format-version}}"
-        swift build -c release
-        install .build/release/swift-format /usr/local/bin/swift-format
-
     - name: run script
       shell: bash
       run: |
-        chmod -R oug+x ${{github.action_path}}/run-swift-format.sh
-        ${{github.action_path}}/run-swift-format.sh
+        chmod -R oug+x ${{github.action_path}}/check-local-swift-dependencies.sh
+        ${{github.action_path}}/check-local-swift-dependencies.sh
 
 branding:
   icon: 'server'
