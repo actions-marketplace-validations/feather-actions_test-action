@@ -13,6 +13,12 @@ runs:
     - name: run script
       shell: bash
       run: |
+
+        echo "${{github.action_path}}"
+        echo "${GITHUB_ACTION_PATH}"
+
+        # /home/runner/work/_actions/feather-actions/test-action/0.0.27/
+
         chmod -R oug+x ${{github.action_path}}/check-local-swift-dependencies.sh
         ${{github.action_path}}/check-local-swift-dependencies.sh
 
