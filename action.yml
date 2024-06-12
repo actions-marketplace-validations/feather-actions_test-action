@@ -17,6 +17,9 @@ runs:
         echo "${{github.action_path}}"
         echo "${GITHUB_ACTION_PATH}"
 
+        # needed for ubuntu
+        git config --global --add safe.directory $PWD
+
         chmod -R oug+x ${GITHUB_ACTION_PATH}/check-local-swift-dependencies.sh
         ${GITHUB_ACTION_PATH}/check-local-swift-dependencies.sh
 
