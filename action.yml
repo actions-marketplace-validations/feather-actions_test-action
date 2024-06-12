@@ -10,15 +10,24 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: build swift-format
+      shell: bash
+      run: |
+        if [[ "$OSTYPE" == "linux-gnu"* ]]; then  # if OS is linux
+          git config --global --add safe.directory $PWD
+        fi
+
+        git clone https://github.com/apple/swift-format.git
+        cd swift-format
+        git checkout "tags/${{inputs.swift-format-version}}"
+        swift build -c release
+        install .build/release/swift-format /usr/local/bin/swift-format
+
     - name: run script
       shell: bash
       run: |
-        # if OS is linux
-        if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-          git config --global --add safe.directory $PWD
-        fi
-        chmod -R oug+x ${GITHUB_ACTION_PATH}/check-local-swift-dependencies.sh
-        ${GITHUB_ACTION_PATH}/check-local-swift-dependencies.sh
+        chmod -R oug+x ${GITHUB_ACTION_PATH}/run-swift-format.sh
+        ${GITHUB_ACTION_PATH}/run-swift-format.sh
 
 branding:
   icon: 'server'
