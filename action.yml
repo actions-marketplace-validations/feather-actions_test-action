@@ -13,12 +13,10 @@ runs:
     - name: run script
       shell: bash
       run: |
-
-        echo "$OSTYPE"
-
-        # needed for ubuntu
-        git config --global --add safe.directory $PWD
-
+        # if OS is linux
+        if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+          git config --global --add safe.directory $PWD
+        fi
         chmod -R oug+x ${GITHUB_ACTION_PATH}/check-local-swift-dependencies.sh
         ${GITHUB_ACTION_PATH}/check-local-swift-dependencies.sh
 
